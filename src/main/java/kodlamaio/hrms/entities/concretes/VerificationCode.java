@@ -1,5 +1,7 @@
 package kodlamaio.hrms.entities.concretes;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,19 +17,25 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Table(name="job_titles")
+@Table(name="verification_codes")
 @AllArgsConstructor
 @NoArgsConstructor
-public class JobTitle {
+public class VerificationCode {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column(name = "id")
 	private int id;
 	
-	@NotBlank
 	@NotNull
-	@Size(min = 2, message = "Title must be at least 2 characters")
-	@Column(name="title", unique=true)
-	private String title;
+	@NotBlank
+	private String code;
+	
+	@NotNull
+	@NotBlank
+	private boolean isVerified;
+	
+	@NotNull
+	@NotBlank
+	private Date verifiedDate;
 }

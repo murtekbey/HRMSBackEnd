@@ -5,7 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import kodlamaio.hrms.adapters.abstracts.CandidateCheckService;
+import kodlamaio.hrms.adapters.checkService.CandidateCheckService;
+import kodlamaio.hrms.adapters.mailConfirmationService.MailConfirmationService;
 import kodlamaio.hrms.business.abstracts.CandidateService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.ErrorResult;
@@ -20,18 +21,38 @@ public class CandidateManager implements CandidateService {
 
 	private CandidateDao candidateDao;
 	private CandidateCheckService candidateCheckService;
+	private MailConfirmationService mailConfirmationService;
 	
 	@Autowired
-	public CandidateManager(CandidateDao candidateDao, CandidateCheckService candidateCheckService) {
+	public CandidateManager(
+			CandidateDao candidateDao,
+			CandidateCheckService candidateCheckService,
+			MailConfirmationService mailConfirmationService) {
 		super();
 		this.candidateDao = candidateDao;
 		this.candidateCheckService = candidateCheckService;
+		this.mailConfirmationService = mailConfirmationService;
 	}
 
 	@Override
 	public Result add(Candidate candidate) {
-		if(!candidateCheckService.checkIfRealPerson(candidate)){
-			return new ErrorResult("Not a valid person");
+		
+		Result checkPerson = candidateCheckService.checkIfRealPerson(candidate);
+		if(!checkPerson.isSuccess()){
+			return new ErrorResult(checkPerson.getMesssage());
+		}
+		
+		Result mailConfirmation = mailConfirmationService.confirmUser(candidate);
+		if (!mailConfirmation.isSuccess()) {
+			return new ErrorResult(mailConfirmation.getMesssage());
+		}
+		
+		if (this.candidateDao.findByEmail(candidate.getEmail()) != null) {
+			return new ErrorResult("Email already exists");
+		}
+		
+		if (this.candidateDao.findByIdentityNumber(candidate.getIdentityNumber()) != null) {
+			return new ErrorResult("Identity number already exists");
 		}
 		
 		this.candidateDao.save(candidate);

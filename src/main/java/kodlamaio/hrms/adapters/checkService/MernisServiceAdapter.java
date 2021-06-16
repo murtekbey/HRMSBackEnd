@@ -1,8 +1,9 @@
-package kodlamaio.hrms.adapters.concretes;
+package kodlamaio.hrms.adapters.checkService;
 
 import org.springframework.stereotype.Service;
 
-import kodlamaio.hrms.adapters.abstracts.CandidateCheckService;
+import kodlamaio.hrms.core.utilities.results.Result;
+import kodlamaio.hrms.core.utilities.results.SuccessResult;
 import kodlamaio.hrms.entities.concretes.Candidate;
 //import tr.gov.nvi.tckimlik.WS.KPSPublicSoapProxy;
 
@@ -10,7 +11,7 @@ import kodlamaio.hrms.entities.concretes.Candidate;
 public class MernisServiceAdapter implements CandidateCheckService {
 
 	@Override
-	public boolean checkIfRealPerson(Candidate candidate) {
+	public Result checkIfRealPerson(Candidate candidate) {
 //        KPSPublicSoapProxy kpsPublicSoapProxy = new KPSPublicSoapProxy();
 //
 //        boolean serviceResult=false;
@@ -27,7 +28,7 @@ public class MernisServiceAdapter implements CandidateCheckService {
 //            System.out.println("Not a valid person");
 //        }
 
-       return true; 
+       return new SuccessResult("Verification successful"); 
 	}
 
 }

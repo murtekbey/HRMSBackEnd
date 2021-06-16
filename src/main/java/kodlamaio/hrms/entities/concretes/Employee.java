@@ -22,12 +22,12 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Table(name="candidates")
+@Table(name="employers")
 @AllArgsConstructor
 @NoArgsConstructor
 @PrimaryKeyJoinColumn(name = "user_id", referencedColumnName = "id")
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler","verification_code_candidates"})
-public class Candidate extends User {
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler","employee_confirms"})
+public class Employee extends User {
 	
 	@NotBlank
 	@NotNull
@@ -41,16 +41,6 @@ public class Candidate extends User {
 	@Column(name="last_name")
 	private String lastName;
 	
-	@NotBlank
-	@NotNull
-	@Column(name="identity_number")
-	private String identityNumber;
-	
-	@NotNull
-	@Column(name="birth_year")
-	private int birthYear;
-	
-	@OneToMany(mappedBy= "candidate")
-	private List<VerificationCodeCandidate> verificationCodeCandidates;
-	
+	@OneToMany(mappedBy= "employee")
+	private List<Employee> employeeConfirms;
 }

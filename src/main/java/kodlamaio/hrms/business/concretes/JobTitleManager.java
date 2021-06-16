@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import kodlamaio.hrms.business.abstracts.JobTitleService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
+import kodlamaio.hrms.core.utilities.results.ErrorResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.core.utilities.results.SuccessDataResult;
 import kodlamaio.hrms.core.utilities.results.SuccessResult;
@@ -26,12 +27,20 @@ public class JobTitleManager implements JobTitleService {
 
 	@Override
 	public Result add(JobTitle jobTitle) {
+		if(jobTitleDao.getByTitle(jobTitle.getTitle()) != null) {
+			return new ErrorResult("Job title already exists.");
+		}
+		
 		this.jobTitleDao.save(jobTitle);
 		return new SuccessResult("İş pozisyonu eklendi: " + jobTitle.getTitle());
 	}
 
 	@Override
 	public Result update(JobTitle jobTitle) {
+		if(jobTitleDao.getByTitle(jobTitle.getTitle()) != null) {
+			return new ErrorResult("Job title already exists.");
+		}
+		
 		this.jobTitleDao.save(jobTitle);
 		return new SuccessResult("İş pozisyonu güncellendi: " + jobTitle.getTitle());
 	}
