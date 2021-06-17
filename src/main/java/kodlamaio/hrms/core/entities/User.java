@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Table(name="users", uniqueConstraints=@UniqueConstraint(columnNames= {"email"}))
+@Table(name="users")
 @AllArgsConstructor
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)

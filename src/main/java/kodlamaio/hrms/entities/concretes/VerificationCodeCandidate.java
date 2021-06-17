@@ -5,9 +5,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-
-import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,9 +19,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @PrimaryKeyJoinColumn(name = "verification_code_id", referencedColumnName = "id")
 public class VerificationCodeCandidate extends VerificationCode {
-	@NotBlank
-	@NotNull
-	@ManyToOne()
-	@JoinColumn(name="candidate_id")
+
+	@ManyToOne
+	@JoinColumn(name="candidate_id", unique = true)
 	private Candidate candidate;
 }

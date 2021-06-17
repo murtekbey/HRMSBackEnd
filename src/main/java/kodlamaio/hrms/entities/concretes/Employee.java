@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Table(name="employers")
+@Table(name="employees")
 @AllArgsConstructor
 @NoArgsConstructor
 @PrimaryKeyJoinColumn(name = "user_id", referencedColumnName = "id")
@@ -42,5 +42,5 @@ public class Employee extends User {
 	private String lastName;
 	
 	@OneToMany(mappedBy= "employee")
-	private List<Employee> employeeConfirms;
+	private List<EmployeeConfirm> employeeConfirms;
 }

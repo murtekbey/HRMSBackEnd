@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -20,6 +22,7 @@ import lombok.NoArgsConstructor;
 @Table(name="verification_codes")
 @AllArgsConstructor
 @NoArgsConstructor
+@Inheritance(strategy = InheritanceType.JOINED)
 public class VerificationCode {
 	
 	@Id
@@ -29,13 +32,18 @@ public class VerificationCode {
 	
 	@NotNull
 	@NotBlank
+	@Column(name = "code")
 	private String code;
 	
 	@NotNull
 	@NotBlank
+	@Column(name = "is_verified")
 	private boolean isVerified;
 	
 	@NotNull
 	@NotBlank
+	@Column(name = "verified_date")
 	private Date verifiedDate;
+	
+	
 }

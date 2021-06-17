@@ -7,12 +7,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import com.sun.istack.NotNull;
 
@@ -25,6 +30,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="employee_confirms")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class EmployeeConfirm {
 
 	@Id
@@ -32,18 +38,15 @@ public class EmployeeConfirm {
 	@Column(name = "id")
 	private int id;
 	
-	@NotBlank
-	@NotNull
+	@Column(name = "is_confirmed")
 	private boolean isConfirmed;
 	
-	@NotBlank
-	@NotNull
-	@LastModifiedDate
+	@DateTimeFormat(iso = ISO.DATE_TIME)
+	@CreatedDate
+	@Column(name = "confirm_date")
 	private Date confirmDate;
 	
-	@NotBlank
-	@NotNull
-	@ManyToOne()
+	@ManyToOne
 	@JoinColumn(name="employee_id")
 	private Employee employee;
 }

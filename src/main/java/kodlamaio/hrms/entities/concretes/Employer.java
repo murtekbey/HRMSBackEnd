@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @PrimaryKeyJoinColumn(name = "user_id", referencedColumnName = "id")
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler","employee_confirm_employers","verification_code_employers"})
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler","verificationCodeEmployers","employeeConfirmEmployers"})
 public class Employer extends User {
 	
 	@NotBlank
@@ -46,7 +46,6 @@ public class Employer extends User {
 	@NotBlank
 	@NotNull
 	@Column(name="phone_number", unique=true)
-	@Pattern(regexp = "/^[0-9]*^[()-]*$/", message = "Not a valid phone number")
 	private String phoneNumber;
 	
 	@OneToMany(mappedBy = "employer")

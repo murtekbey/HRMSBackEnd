@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kodlamaio.hrms.adapters.mailConfirmationService.MailConfirmationService;
 import kodlamaio.hrms.business.abstracts.EmployerService;
+import kodlamaio.hrms.business.abstracts.VerificationCodeEmployerService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.ErrorResult;
 import kodlamaio.hrms.core.utilities.results.Result;
@@ -18,11 +20,17 @@ import kodlamaio.hrms.entities.concretes.Employer;
 public class EmployerManager implements EmployerService {
 
 	private EmployerDao employerDao;
+	private VerificationCodeEmployerService verificationCodeEmployerService;
+	private MailConfirmationService mailConfirmationService;
 	
 	@Autowired
-	public EmployerManager(EmployerDao employerDao) {
+	public EmployerManager(EmployerDao employerDao,
+			VerificationCodeEmployerService verificationCodeEmployerService,
+			MailConfirmationService mailConfirmationService) {
 		super();
 		this.employerDao = employerDao;
+		this.verificationCodeEmployerService = verificationCodeEmployerService;
+		this.mailConfirmationService = mailConfirmationService;
 	}
 
 	@Override
@@ -32,12 +40,18 @@ public class EmployerManager implements EmployerService {
 			return new ErrorResult(checkEmployer.getMesssage());
 		}
 		
+		Result mailConfirmation = mailConfirmationService.confirmUser(employer);
+		if (!mailConfirmation.isSuccess()) {
+			return new ErrorResult(mailConfirmation.getMesssage());
+		}
+		
 		if (this.employerDao.findByEmail(employer.getEmail()) != null) {
 			return new ErrorResult("Email already exists");
 		}
 		
 		this.employerDao.save(employer);
-		return new SuccessResult("İşveren eklendi: " + employer.getEmail());
+		this.verificationCodeEmployerService.generateEmployerCode(employer);
+		return new SuccessResult("İşveren eklendi: " + "Doğrulama kodu gönderildi");
 	}
 
 	@Override

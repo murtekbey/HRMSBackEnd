@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import kodlamaio.hrms.adapters.checkService.CandidateCheckService;
 import kodlamaio.hrms.adapters.mailConfirmationService.MailConfirmationService;
 import kodlamaio.hrms.business.abstracts.CandidateService;
+import kodlamaio.hrms.business.abstracts.VerificationCodeCandidateService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.ErrorResult;
 import kodlamaio.hrms.core.utilities.results.Result;
@@ -22,16 +23,19 @@ public class CandidateManager implements CandidateService {
 	private CandidateDao candidateDao;
 	private CandidateCheckService candidateCheckService;
 	private MailConfirmationService mailConfirmationService;
+	private VerificationCodeCandidateService verificationCodeCandidateService;
 	
 	@Autowired
 	public CandidateManager(
 			CandidateDao candidateDao,
 			CandidateCheckService candidateCheckService,
-			MailConfirmationService mailConfirmationService) {
+			MailConfirmationService mailConfirmationService,
+			VerificationCodeCandidateService verificationCodeCandidateService) {
 		super();
 		this.candidateDao = candidateDao;
 		this.candidateCheckService = candidateCheckService;
 		this.mailConfirmationService = mailConfirmationService;
+		this.verificationCodeCandidateService = verificationCodeCandidateService;
 	}
 
 	@Override
@@ -56,7 +60,8 @@ public class CandidateManager implements CandidateService {
 		}
 		
 		this.candidateDao.save(candidate);
-		return new SuccessResult("Aday eklendi: " + candidate.getEmail());
+		this.verificationCodeCandidateService.generateCandidateCode(candidate);
+		return new SuccessResult("Aday eklendi: " + "Doğrulama kodu gönderildi");
 	}
 
 	@Override
