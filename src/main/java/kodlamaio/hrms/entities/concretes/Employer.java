@@ -53,4 +53,7 @@ public class Employer extends User {
 	
 	@OneToMany(mappedBy = "employer")
 	private List<VerificationCodeEmployer> verificationCodeEmployers;
+	
+	@OneToMany(mappedBy = "employer")
+	private List<EmployerJobAdvertisement> employerJobAdvertisements;
 }

@@ -19,11 +19,10 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Table(name="job_titles")
+@Table(name="cities")
 @AllArgsConstructor
 @NoArgsConstructor
-public class JobTitle {
-	
+public class City {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
@@ -31,10 +30,10 @@ public class JobTitle {
 	
 	@NotBlank
 	@NotNull
-	@Size(min = 2, message = "Title must be at least 2 characters")
-	@Column(name="title", unique=true)
-	private String title;
+	@Size(min = 2, message = "Name must be at least 2 characters")
+	@Column(name="name", unique=true)
+	private String name;
 	
-	@OneToMany(mappedBy= "jobTitle")
+	@OneToMany(mappedBy= "city")
 	private List<JobAdvertisement> jobAdvertisements;
 }
