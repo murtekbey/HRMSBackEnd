@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Murtek Secret Codes ###
+/src/main/java/kodlamaio/hrms/adapters/cloudinaryService/CloudinaryAdapter.java
+/src/main/resources/application.properties

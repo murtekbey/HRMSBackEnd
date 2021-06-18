@@ -13,8 +13,6 @@ import kodlamaio.hrms.entities.dtos.JobAdvertisementWithEmployerDto;
 
 public interface EmployerJobAdvertisementDao extends JpaRepository<EmployerJobAdvertisement, Integer> {
 	
-//	@Query("From Product where productName=:productName and category.categoryId=:categoryId")
-	
 	@Query("Select new kodlamaio.hrms.entities.dtos.JobAdvertisementWithEmployerDto"
 			+ "(j.id, e.companyName, t.title, j.numberOfHires, j.releaseDate, j.applicationDeadline)"
 			+ "From EmployerJobAdvertisement j Inner Join j.employer e Inner Join j.jobTitle t where j.isActive=true")

@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @PrimaryKeyJoinColumn(name = "user_id", referencedColumnName = "id")
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler","verification_code_candidates"})
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler","verificationCodeCandidates"})
 public class Candidate extends User {
 	
 	@NotBlank
